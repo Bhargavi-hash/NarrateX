@@ -1,0 +1,15 @@
+/NarrateX
+    /backend
+        /agents
+            gender_inference_agent.py
+            __init__.py
+        /smaple_short_stories
+            the_clockmakers_secret.txt
+        /tools
+            character_extractor.py --> using spacy here to filter characters
+            __init__.py
+        __init__.py
+        main.py
+    /frontend
+    requirements.txt
+    README.md

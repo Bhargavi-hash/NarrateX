@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from tools.character_extractor import extract_characters
+from tools.pov_detector import detect_pov
 from tools.gender_detector import detect_genders
 
 app = FastAPI()
@@ -25,5 +26,7 @@ class StoryRequest(BaseModel):
 def analyze_story(request: StoryRequest):
     characters = extract_characters(request.text)
     gender_info = detect_genders(characters)
-    return {"characters": gender_info}
+    pov_info = detect_pov(request.text)
+    # print("DEBUG: Returning -->", {"characters": gender_info})
+    return {"characters": gender_info, "pov": pov_info}
 

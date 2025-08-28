@@ -1,26 +1,27 @@
+# backend/tools/character_extractor.py
 import spacy
 
 nlp = spacy.load("en_core_web_sm")
 
-HONORIFICS = {"Mr.", "Mrs.", "Ms.", "Miss", "Dr.", "Prof.", "Sir", "Madam"}
-
 def extract_characters(text):
+    """
+    Returns list of dicts like:
+    [{"name": "Mr. Finch", "context": "Mr. Finch adjusted his glasses nervously."}, ...]
+    """
     doc = nlp(text)
-    characters = set()
+    characters = {}
 
-    for ent in doc.ents:
-        if ent.label_ == "PERSON":
-            # Check if previous token is an honorific
-            start_idx = ent.start
-            if start_idx > 0:
-                prev_token = doc[start_idx - 1]
-                if prev_token.text in HONORIFICS:
-                    characters.add(f"{prev_token.text} {ent.text.strip()}")
-                    continue
-            characters.add(ent.text.strip())
+    for sent in doc.sents:
+        for ent in sent.ents:
+            if ent.label_ == "PERSON":
+                name = ent.text.strip()
+                # Store first occurrence sentence as context
+                if name not in characters:
+                    characters[name] = sent.text.strip()
 
-    # Cleanup (remove generic terms)
+    # Cleanup generic words if needed
     blacklist = {"Clockmaker", "Secret"}
-    characters = {c for c in characters if c not in blacklist}
+    characters = {n: c for n, c in characters.items() if n not in blacklist}
 
-    return sorted(characters)
+    # Convert dict to list of dicts
+    return [{"name": n, "context": c} for n, c in characters.items()]

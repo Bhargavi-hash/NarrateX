@@ -34,4 +34,19 @@ document.getElementById("analyzeBtn").addEventListener("click", async () => {
         row.appendChild(genderCell);
         tableBody.appendChild(row);
     });
+
+    // Build nodes and edges for network
+    const nodes = data.graph?.nodes || [];
+    const edges = data.graph?.edges || [];
+
+    // Build vis.js data structure
+    const visNodes = nodes.map(n => ({ id: n.id, label: n.id }));
+    const visEdges = edges.map(e => ({ from: e.from, to: e.to, value: e.value }));
+
+    const container = document.getElementById("network");
+    const networkData = { nodes: new vis.DataSet(visNodes), edges: new vis.DataSet(visEdges) };
+    const options = { edges: { arrows: "to", smooth: true }, nodes: { shape: "dot", size: 20 } };
+
+    new vis.Network(container, networkData, options);
+
 });

@@ -27,12 +27,12 @@ cd NarrateX
 ```
 pip install -r requirements.txt
 ```
-### Also download a spaCy model
+#### Also download a spaCy model
 ```
 python -m spacy download en_core_web_sm
 ```
 
-## 🚀 Running the App
+### 3. 🚀 Running the App
 ```
 cd backend
 uvicorn api:app --reload
@@ -59,7 +59,12 @@ No server required for the frontend since it’s just static HTML/JS/CSS.
 By default, only `gender-guesser` is used (fast and local).
 If you uncomment the LLM code inside `gender_detector.py`, ambiguous cases (like “Mr. Finch”) can be resolved using a small local or cloud LLM.
 
-> Warning: Running LLMs locally may require significant memory (≥6GB). Tiny models (like TinyLlama) work best, but are still slower than gender-guesser.
+>> Warning: Running LLMs locally may require significant memory (≥6GB). Tiny models (like TinyLlama) work best, but are still slower than gender-guesser.
+
+## 🖼 UI images
+
+![Story input and character gender analysis](./images/NarrateX_story_input_ss.png)
+![Character interaction network graph](./images/character_interaction_network.png)
 
 ## 🌟 Why is this interesting?
 
